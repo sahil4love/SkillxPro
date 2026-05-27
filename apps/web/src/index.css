@@ -1,0 +1,214 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    background-color: #F1F3F4; /* Google Light Grey Base */
+    color: #202124; /* Google Dark Charcoal */
+    font-family: 'Outfit', sans-serif;
+    overflow-x: hidden;
+  }
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track {
+  background: #F1F3F4;
+}
+::-webkit-scrollbar-thumb {
+  background: #DADCE0;
+  border-radius: 5px;
+  border: 2px solid #F1F3F4;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #9AA0A6;
+}
+
+/* Material Design 3 Cards */
+.google-card {
+  background-color: #FFFFFF;
+  border: 1px solid #E0E2E6;
+  border-radius: 24px; /* Hallmark MD3 Bento corner radius */
+  box-shadow: 0 1px 2px 0 rgba(60,64,67,0.15), 0 1px 3px 1px rgba(60,64,67,0.08);
+  transition: all 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.google-card-hover:hover {
+  transform: translateY(-3px) scale(1.005);
+  box-shadow: 0 4px 12px 0 rgba(60,64,67,0.12), 0 2px 6px 2px rgba(60,64,67,0.08);
+  border-color: #D2E3FC;
+}
+
+.bento-card {
+  background-color: #FFFFFF;
+  border-radius: 24px; /* 24px corner radius */
+  border: 1px solid #c2c6d5;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.bento-card:hover {
+  box-shadow: 0 4px 8px rgba(0,0,0,0.12);
+  transform: translateY(-4px);
+}
+
+/* Premium Google Buttons */
+.google-btn-primary {
+  background-color: #4285F4;
+  color: #FFFFFF;
+  border-radius: 9999px; /* Pill shape */
+  font-weight: 600;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 1px 2px 0 rgba(60,64,67,0.3);
+}
+
+.google-btn-primary:hover {
+  background-color: #174EA6;
+  box-shadow: 0 2px 6px 2px rgba(60,64,67,0.15);
+  transform: translateY(-1px);
+}
+
+.google-btn-primary:active {
+  background-color: #174EA6;
+  transform: translateY(1px);
+  box-shadow: none;
+}
+
+.google-btn-secondary {
+  background-color: #34A853;
+  color: #FFFFFF;
+  border-radius: 9999px; /* Pill shape */
+  font-weight: 600;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 1px 2px 0 rgba(60,64,67,0.3);
+}
+
+.google-btn-secondary:hover {
+  background-color: #0D652D;
+  box-shadow: 0 2px 6px 2px rgba(60,64,67,0.15);
+  transform: translateY(-1px);
+}
+
+.google-btn-outline {
+  background-color: transparent;
+  color: #202124;
+  border: 1px solid #DADCE0;
+  border-radius: 9999px; /* Pill shape */
+  font-weight: 600;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.google-btn-outline:hover {
+  background-color: #F1F3F4;
+  border-color: #BDC1C6;
+}
+
+/* Material Chips */
+.google-chip {
+  background-color: #F1F3F4;
+  color: #5F6368;
+  border-radius: 9999px;
+  font-size: 13px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.google-chip-active {
+  background-color: #D2E3FC;
+  color: #174EA6;
+  border: 1px solid #174EA6;
+}
+
+/* Google Color Overlays / Container Badges */
+.google-badge-blue {
+  background-color: #D2E3FC;
+  color: #174EA6;
+}
+
+.google-badge-green {
+  background-color: #CEEAD6;
+  color: #0D652D;
+}
+
+.google-badge-red {
+  background-color: #FAD2CF;
+  color: #A50E0E;
+}
+
+.google-badge-yellow {
+  background-color: #FEEFC3;
+  color: #E37400;
+}
+
+/* Spring Float Animations */
+@keyframes googleFloat {
+  0% { transform: translateY(0px); }
+  100% { transform: translateY(-8px); }
+}
+
+.animate-google-float-1 {
+  animation: googleFloat 4s ease-in-out infinite alternate;
+}
+
+.animate-google-float-2 {
+  animation: googleFloat 4.5s ease-in-out infinite alternate 0.8s;
+}
+
+.animate-google-float-3 {
+  animation: googleFloat 5s ease-in-out infinite alternate 1.6s;
+}
+
+/* Progress bar filling animation */
+@keyframes barFill {
+  0% { width: 0%; }
+  100% { width: 65%; }
+}
+
+.animate-bar-fill {
+  animation: barFill 1.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+/* Premium 3D Flip Card Styles */
+.flip-card-container {
+  perspective: 1000px;
+}
+
+.flip-card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  transform-style: preserve-3d;
+}
+
+.flip-card-inner.flipped {
+  transform: rotateY(180deg);
+}
+
+.flip-card-front, .flip-card-back {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  border-radius: 24px;
+}
+
+.flip-card-back {
+  transform: rotateY(180deg);
+}
+
+@keyframes spinSlow {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.animate-spin-slow {
+  animation: spinSlow 8s linear infinite;
+}
