@@ -1,0 +1,62 @@
+# Dependency Directories
+node_modules/
+jspm_packages/
+web_modules/
+
+# Compiled Builds & Output Caches
+dist/
+build/
+out/
+.next/
+.serverless/
+.docusaurus/
+.cache/
+
+# Local Dev Settings & Caches
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+.env.development
+.env.test
+.env.production
+*.env
+*.env.*
+.gemini/
+.system_generated/
+.parcel-cache/
+.eslintcache
+
+# OS Files & System Caches
+.DS_Store
+Thumbs.db
+desktop.ini
+$RECYCLE.BIN/
+ehthumbs.db
+ehthumbs_vista.db
+
+# IDE / Editor Settings
+.idea/
+.vscode/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+*.swo
+.project
+.classpath
+.settings/
+.nbproject/
+
+# Logs & Diagnostics
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+
+# Project Scratch / Issues Guide
+github_issues.md
