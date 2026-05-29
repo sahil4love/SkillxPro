@@ -1,33 +1,67 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { User, Skill, Transaction, Message, ClassSchedule } from '../types';
 
+type AuthMethod = 'email' | 'mobile' | 'username';
+type AccountStatus = 'active' | 'suspended';
+type TransactionType = 'earn' | 'spend' | 'bonus' | 'distributed';
+type ClassStatus = 'scheduled' | 'completed' | 'cancelled';
+
+interface AdminUser extends User {
+  role: 'super_admin';
+  method: 'username';
+}
+
+interface PlatformConfig {
+  maintenanceMode: boolean;
+  registrationLocked: boolean;
+  tokenConversionRate: number;
+  platformFee: number;
+}
+
+/** Shared authentication, user, marketplace, and admin state exposed by AuthProvider. */
 interface AuthContextType {
+  /** Currently signed-in learner or teacher; null when logged out or an admin is active. */
   user: User | null;
-  adminUser: any | null;
+  /** Active super-admin session used by the admin dashboard. */
+  adminUser: AdminUser | null;
+  /** All registered platform users persisted in localStorage. */
   allUsers: User[];
+  /** Marketplace skills available for discovery and teaching. */
   skills: Skill[];
+  /** Token ledger entries for users and admin distributions. */
   transactions: Transaction[];
+  /** In-app teacher/student conversation messages. */
   messages: Message[];
+  /** Scheduled classes and their current status. */
   schedules: ClassSchedule[];
-  config: {
-    maintenanceMode: boolean;
-    registrationLocked: boolean;
-    tokenConversionRate: number;
-    platformFee: number;
-  };
-  login: (identifier: string, method: 'email' | 'mobile' | 'username') => Promise<boolean>;
-  register: (name: string, identifier: string, method: 'email' | 'mobile') => Promise<void>;
+  /** Runtime platform settings managed by the admin dashboard. */
+  config: PlatformConfig;
+  /** Sign in a user by identifier, or the super admin with username credentials. */
+  login: (identifier: string, method: AuthMethod) => Promise<boolean>;
+  /** Create a new learner account unless registration is locked. */
+  register: (name: string, identifier: string, method: Exclude<AuthMethod, 'username'>) => Promise<void>;
+  /** Clear the active user or admin session from state and localStorage. */
   logout: () => void;
+  /** Merge profile changes into the active user and the persisted user list. */
   updateUser: (userData: Partial<User>) => void;
-  updateUserStatus: (identifier: string, status: 'active' | 'suspended') => void;
+  /** Toggle a user between active and suspended states. */
+  updateUserStatus: (identifier: string, status: AccountStatus) => void;
+  /** Add an admin-issued token distribution to a user account. */
   distributeTokens: (identifier: string, amount: number, reason: string) => void;
-  addTransaction: (type: 'earn' | 'spend' | 'bonus' | 'distributed', description: string, amount: number, userIdentifier?: string, customBalance?: number) => void;
+  /** Record a token ledger entry, optionally for a specific user and balance. */
+  addTransaction: (type: TransactionType, description: string, amount: number, userIdentifier?: string, customBalance?: number) => void;
+  /** Publish a new skill with an auto-generated id. */
   addSkill: (skillData: Omit<Skill, 'id'>) => void;
+  /** Remove a skill from the marketplace by id. */
   deleteSkill: (id: number) => void;
-  sendMessage: (teacher: string, text: string, sender: 'you' | 'them') => void;
+  /** Append a chat message for a teacher conversation. */
+  sendMessage: (teacher: string, text: string, sender: Message['sender']) => void;
+  /** Create a scheduled class entry for a teacher and skill. */
   scheduleClass: (teacher: string, skillName: string, date: string, time: string) => void;
-  updateClassStatus: (id: string | number, status: 'scheduled' | 'completed' | 'cancelled') => void;
-  updateConfig: (newConfig: Partial<AuthContextType['config']>) => void;
+  /** Update the lifecycle status for a scheduled class. */
+  updateClassStatus: (id: ClassSchedule['id'], status: ClassStatus) => void;
+  /** Merge admin platform setting changes into the current config. */
+  updateConfig: (newConfig: Partial<PlatformConfig>) => void;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -44,7 +78,7 @@ const DEFAULT_SKILLS: Skill[] = [
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
-  const [adminUser, setAdminUser] = useState<any | null>(null);
+  const [adminUser, setAdminUser] = useState<AdminUser | null>(null);
   const [allUsers, setAllUsers] = useState<User[]>([]);
   const [skills, setSkills] = useState<Skill[]>([]);
   const [transactions, setTransactions] = useState<Transaction[]>([]);
